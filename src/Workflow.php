@@ -92,4 +92,25 @@ class Workflow
 
         return $this;
     }
+
+    /**
+     *
+     *
+     * @param ContextInterface $context
+     * @return $this
+     */
+    public function play(ContextInterface $context)
+    {
+        $transitions = $this->current->getOpenTransitions($context);
+
+        foreach ($transitions as $transition) {
+            try {
+                $this->next($context);
+            } catch (Exception\NoOpenTransitionException $e) {
+                //@todo implement
+                break;
+            }
+        }
+        return $this;
+    }
 }
